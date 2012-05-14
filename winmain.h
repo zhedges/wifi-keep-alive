@@ -1,7 +1,10 @@
 #ifndef HEADER_WINMAIN
 #define HEADER_WINMAIN
 
-const char* ver = "0.2";
-std::string prefix = "[wifi-keep-alive] ";
+#include <windows.h>
+
+// Global variables
+HWND g_hToolbar;
+const char* version = "0.2";
 
 #endif/*HEADER_WINMAIN*/
