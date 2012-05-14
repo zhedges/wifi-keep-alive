@@ -2,7 +2,9 @@
 #include <string>
 #include <queue>
 #include <windows.h>
-#include "wifi-keep-alive.h"
+
+#include "winmain.h"
+#include "resource.h"
 
 using std::cin; using std::cout; using std::endl;
 using std::string; using std::queue;
@@ -39,23 +41,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 {
 	LPCSTR AppTitle = "WiFi KeepAlive";
 	
-	WNDCLASS wc;
+	WNDCLASSEX wcex;
 	
-	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc	= WindowProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
-	wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH) COLOR_WINDOWFRAME;
-	wc.lpszMenuName = NULL;
-	wc.lpszClassName = AppTitle;
+	wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc	= WindowProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MYICON));
+	wcex.hIconSm = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MYICON), IMAGE_ICON, 16, 16, 0);
+	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH) COLOR_WINDOWFRAME;
+	wcex.lpszMenuName = MAKEINTRESOURCE(IDR_MYMENU);
+	wcex.lpszClassName = AppTitle;
 	
-	if (!RegisterClass(&wc))
+	if (!RegisterClassEx(&wcex))
 		return 0;
 	
-	HWND hwnd = CreateWindow(
+	HWND hwnd = CreateWindowEx(0,
 					AppTitle, AppTitle,	
 					WS_OVERLAPPEDWINDOW,
 					
