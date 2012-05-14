@@ -35,7 +35,7 @@ void PingMonitor::CheckFrame()
 	//create a timer that will let us repeat this function without
 	//blocking when it dies
 	if((delTimer = SetTimer(NULL, 0, 80, NULL)) == 0)
-	PostQuitMessage(-1);
+	PostQuitMessage(GetLastError());
 }
 
 void PingMonitor::Start(std::string pingURL)

@@ -16,6 +16,7 @@ class PingMonitor
 		void CheckFrame();
 		
 	private:
+		bool setupChildProc();
 		HWND _edit, _dlg;
 		std::string _cmd, _url;
 		std::queue<std::string> _input;

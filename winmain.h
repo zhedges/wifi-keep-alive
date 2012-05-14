@@ -1,10 +1,10 @@
 #ifndef HEADER_WINMAIN
 #define HEADER_WINMAIN
 
+#include <string>
 #include <windows.h>
 
 // Global variables
-HWND g_hToolbar;
-const char* version = "0.2";
+std::string version = "0.2";
 
 #endif/*HEADER_WINMAIN*/
