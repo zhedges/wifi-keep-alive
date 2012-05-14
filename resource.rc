@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "resource.h"
 
 IDR_MYMENU MENU
@@ -12,6 +13,39 @@ BEGIN
 		MENUITEM "&Go", ID_STUFF_GO
 		MENUITEM "G&o somewhere else", 0, GRAYED
 	END
+	
+	POPUP "&Dialog"
+	BEGIN
+		MENUITEM "&Show", ID_DIALOG_SHOW
+		MENUITEM "&Hide", ID_DIALOG_HIDE
+	END
+	
+	POPUP "&Help"
+	BEGIN
+		MENUITEM "A&bout", ID_HELP_ABOUT
+	END
 END
 
-IDI_MYICON ICON "menu_one.ico"
+IDI_PROGICON ICON "menu_one.ico"
+
+IDD_ABOUT DIALOG 0, 0, 239, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "My About Box"
+FONT 8, "MS Sans Serif"
+BEGIN
+	DEFPUSHBUTTON "&OK",IDOK,174,18,50,14
+	PUSHBUTTON "&Cancel",IDCANCEL,174,35,50,14
+	GROUPBOX "About this program...",IDC_STATIC,7,7,225,52
+	CTEXT "An example program showing how to use Dialog Boxes\r\n\r\nby TheForger",
+		IDC_STATIC,16,18,144,33
+END
+
+IDMD_STATUS DIALOGEX 0, 0, 98, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "My Dialog Toolbar"
+FONT 8, "MS Sans Serif"
+BEGIN
+	PUSHBUTTON	"&This is a button", IDC_PRESS, 7, 7, 84, 14
+	PUSHBUTTON	"&So is this one", IDC_OTHER, 7, 31, 84, 14
+END
