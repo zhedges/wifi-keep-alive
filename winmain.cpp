@@ -4,7 +4,36 @@
 #include <windows.h>
 #include "wifi-keep-alive.h"
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+using std::cin; using std::cout; using std::endl;
+using std::string; using std::queue;
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch(uMsg)
+	{
+		case WM_LBUTTONDOWN: {
+			char szFileName[MAX_PATH];
+			HINSTANCE hInstance = GetModuleHandle(NULL);
+			GetModuleFileName(hInstance, szFileName, MAX_PATH);
+			MessageBox(hwnd, szFileName, "This program is:", MB_OK | MB_ICONINFORMATION);
+			break;
+		}
+		case WM_DESTROY: {
+			PostQuitMessage(0);
+			break;
+		}
+		case WM_PAINT: {
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwnd, &ps);
+			FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
+			EndPaint(hwnd, &ps);
+			break;
+		}
+		default:
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
+	return 0;
+}
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow)
 {
@@ -37,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 		
 	if (hwnd == NULL)
 	{
-		return 1;
+		return 0;
 	}
 	
 	ShowWindow(hwnd, nCmdShow);
@@ -46,8 +75,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 	// Run the message loop.
 	
 	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0))
+	BOOL bRet;
+	while ( (bRet = GetMessage(&msg, NULL, 0, 0)) > 0)
 	{
+		if(bRet == -1)
+		{
+			// error!
+			PostQuitMessage(-2);
+		}
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
@@ -55,32 +90,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 	return 0;
 }
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	switch(uMsg)
-	{
-		case WM_DESTROY: {
-			PostQuitMessage(0);
-			return 0;
-		}
-		
-		case WM_PAINT: {
-			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hwnd, &ps);
-			FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
-			EndPaint(hwnd, &ps);
-			return 0;
-		}
-		
-		default:
-			return DefWindowProc(hwnd, uMsg, wParam, lParam);
-	}
-	// do we ever get here?
-	return 0;
-}
 
-/*
-int main(int argc, char** argv)
+int pingLoop(int argc, char** argv)
 {
 	
 	// we are going to keep track of our input with a queue.
@@ -88,8 +99,8 @@ int main(int argc, char** argv)
 	queue<string> q;
 	
 	// loop on stdin
-	while(getline(cin,in))
-	{	
+	//while(getline(cin,in))
+	//{	
 		//read a line from input and put it in the queue
 		//getline(cin,in);
 		q.push(in);
@@ -126,6 +137,6 @@ int main(int argc, char** argv)
 			q.pop();
 		}
 		
-	}
+	//}
 return 0;
-} */
+}
