@@ -23,3 +23,7 @@ class PingMonitor
 };
 
 #endif//HEADER_WIFI_KEEP_ALIVE
+
+
+//TODO: hardcode command string into setupchildproc.
+// try to give the child process the WRITE END OF THE PIPE YOU DUMMY
